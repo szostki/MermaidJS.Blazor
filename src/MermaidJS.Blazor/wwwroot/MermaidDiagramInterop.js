@@ -9,7 +9,7 @@
                 script.async = false;
                 script.defer = false;
                 script.onload = () => {
-                    window.mermaid.mermaidAPI.initialize(window.mermaidDiagramBlazorOptions);
+                    window.mermaid.initialize(window.mermaidDiagramBlazorOptions);
 
                     resolve();
                 };
@@ -53,12 +53,12 @@ export function beginRender(componentId, definition) {
         }
 
         try {
-            window.mermaid.mermaidAPI.render(`${componentId}-svg`, definition, (svg, bind) => {
+            window.mermaid.render(`${componentId}-svg`, definition).then(({svg, bind}) => {
                 const host = document.getElementById(componentId);
 
                 host.innerHTML = svg;
 
-                bind(host);
+                bind?.(host);
 
                 componentRef.invokeMethodAsync("OnRenderCompleted");
             });
